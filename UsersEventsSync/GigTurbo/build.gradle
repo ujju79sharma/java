@@ -1,0 +1,35 @@
+ plugins {
+	id 'org.springframework.boot' version '2.4.0'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id 'java-library'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.mongodb:mongo-java-driver:3.12.7'
+    implementation 'com.google.code.gson:gson'
+    implementation 'joda-time:joda-time:2.10.9'
+    implementation 'org.javers:javers-persistence-mongo:5.14.0'
+
+}
+
+bootJar {
+	manifest {
+        attributes 'Start-Class': 'com.java.gigturbo.GigTurboApplication'  
+    }
+    archivesBaseName = project.name + '-all'
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}

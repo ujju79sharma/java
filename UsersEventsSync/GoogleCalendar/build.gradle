@@ -1,0 +1,33 @@
+ plugins {
+	id 'org.springframework.boot' version '2.4.0'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id 'java-library'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.boot:spring-boot-devtools:2.4.2'
+	implementation 'com.google.api-client:google-api-client:1.31.1'
+    implementation 'com.google.oauth-client:google-oauth-client-jetty:1.31.4'
+    implementation 'com.google.apis:google-api-services-calendar:v3-rev20201028-1.31.0'
+    implementation 'com.google.code.gson:gson'
+
+}
+
+bootJar {
+	manifest {
+        attributes 'Start-Class': 'com.java.googlecalendar.GoogleCalendarApplication'  
+    }
+    archivesBaseName = project.name + '-all'
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}

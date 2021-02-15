@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  mongo-local-server:
+    image: mongo:latest
+    restart: always 
+    container_name: "mongo-local-server"
+    network_mode: host
+    volumes:
+      - $HOME/mongo:/data/db
+    environment:
+            MONGO_INITDB_DATABASE: "calendar"
+            MONGOCLIENT_DEFAULT_CONNECTION_URL: mongodb://mongo:27017
+    ports:
+      - 27017:27017
+    healthcheck:
+      test: "exit 0"
+
+  gigturbo-v2-docker:
+    image: gigturbo-v2-docker
+    container_name: "gigturbo-v2-docker"
+    network_mode: "host"
+    hostname: localhost
+    restart: always
+    environment:
+      - SERVER_PORT=8082
+    depends_on:
+      - mongo-local-server
